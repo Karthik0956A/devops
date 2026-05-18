@@ -8,8 +8,6 @@ jobs:
   backend:
     name: Backend lint and tests
     runs-on: ubuntu-latest
-    env:
-      FAIL_HEALTH: "true"
     defaults:
       run:
         working-directory: backend
