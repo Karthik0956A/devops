@@ -36,6 +36,9 @@ app.use(
 );
 
 app.get("/api/health", (_req, res) => {
+  if (env.failHealth) {
+    return res.status(500).json({ status: "error", service: "skillswap-api" });
+  }
   res.json({ status: "ok", service: "skillswap-api" });
 });
 

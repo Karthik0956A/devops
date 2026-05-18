@@ -11,5 +11,6 @@ export const env = {
   frontendUrl: process.env.FRONTEND_URL || "http://localhost:5173",
   rateLimitWindowMs: Number(process.env.RATE_LIMIT_WINDOW_MS || 15 * 60 * 1000),
   rateLimitMax: Number(process.env.RATE_LIMIT_MAX || 120),
-  failStartup: process.env.FAIL_STARTUP === "true"
+  failStartup: process.env.FAIL_STARTUP === "true",
+  failHealth: process.env.FAIL_HEALTH === "true"
 };
