@@ -23,6 +23,12 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Fail on startup guard
+        if: vars.FAIL_STARTUP == 'true'
+        env:
+          FAIL_STARTUP: "true"
+        run: node src/server.js
+
       - name: Lint backend
         run: npm run lint
 
