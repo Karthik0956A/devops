@@ -6,6 +6,32 @@ import PageHeader from "../components/PageHeader.jsx";
 
 const apiOrigin = (import.meta.env.VITE_API_URL || "http://localhost:5000/api").replace(/\/api\/?$/, "");
 
+const getYouTubeId = (value) => {
+  if (!value) return "";
+  try {
+    const url = new URL(value);
+    if (url.hostname.includes("youtu.be")) {
+      return url.pathname.replace("/", "");
+    }
+    if (url.hostname.includes("youtube.com")) {
+      return url.searchParams.get("v") || "";
+    }
+  } catch {
+    return "";
+  }
+  return "";
+};
+
+const getYouTubeEmbedUrl = (value) => {
+  const id = getYouTubeId(value);
+  return id ? `https://www.youtube.com/embed/${id}` : "";
+};
+
+const isPdfLink = (value) => {
+  if (!value) return false;
+  return value.toLowerCase().endsWith(".pdf") || value.includes("drive.google.com");
+};
+
 const SkillDetail = () => {
   const { id } = useParams();
   const [skill, setSkill] = useState(null);
@@ -53,13 +79,7 @@ const SkillDetail = () => {
       <section className="grid gap-5 lg:grid-cols-[1.6fr_1fr]">
         <div className="space-y-5">
           <div className="overflow-hidden rounded border border-slate-200 bg-white shadow-soft">
-            {skill.thumbnailUrl ? (
-              <img className="h-56 w-full object-cover" src={skill.thumbnailUrl} alt={skill.title} />
-            ) : (
-              <div className="grid h-56 place-items-center bg-ink text-white">
-                <PlayCircle size={54} />
-              </div>
-            )}
+            {skill.thumbnailUrl ? <img className="h-56 w-full object-cover" src={skill.thumbnailUrl} alt={skill.title} /> : null}
             <div className="p-5">
               <h2 className="text-lg font-semibold text-ink">Course overview</h2>
               <p className="mt-2 text-sm leading-6 text-slate-600">{skill.description}</p>
@@ -87,7 +107,37 @@ const SkillDetail = () => {
                     <span className="grid h-8 w-8 shrink-0 place-items-center rounded bg-slate-100 text-sm font-bold text-ink">{index + 1}</span>
                     <div className="flex-1">
                       <p className="font-semibold text-ink">{lesson.title}</p>
-                      <p className="mt-1 text-sm text-slate-600">{lesson.contentData || "Learning resource shared after booking acceptance."}</p>
+                      {lesson.contentType === "text" ? (
+                        <p className="mt-1 text-sm text-slate-600">{lesson.contentData || "Learning resource shared after booking acceptance."}</p>
+                      ) : null}
+                      {lesson.contentType === "video" ? (
+                        getYouTubeEmbedUrl(lesson.contentData) ? (
+                          <div className="mt-3 overflow-hidden rounded border border-slate-200 bg-white">
+                            <iframe
+                              className="aspect-video w-full"
+                              src={getYouTubeEmbedUrl(lesson.contentData)}
+                              title={`${lesson.title} video`}
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            />
+                          </div>
+                        ) : lesson.contentData ? (
+                          <a className="mt-2 inline-flex text-sm font-semibold text-mint hover:underline" href={lesson.contentData} target="_blank" rel="noreferrer">
+                            Open video resource
+                          </a>
+                        ) : (
+                          <p className="mt-1 text-sm text-slate-600">Video resource shared after booking acceptance.</p>
+                        )
+                      ) : null}
+                      {lesson.contentType === "pdf" ? (
+                        lesson.contentData && isPdfLink(lesson.contentData) ? (
+                          <a className="mt-2 inline-flex text-sm font-semibold text-mint hover:underline" href={lesson.contentData} target="_blank" rel="noreferrer">
+                            Open PDF resource
+                          </a>
+                        ) : (
+                          <p className="mt-1 text-sm text-slate-600">PDF link shared after booking acceptance.</p>
+                        )
+                      ) : null}
                     </div>
                     <span className="rounded bg-mint/10 px-2 py-1 text-xs font-semibold text-mint">{lesson.contentType}</span>
                   </div>

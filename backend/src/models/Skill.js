@@ -23,7 +23,7 @@ const materialSchema = new mongoose.Schema(
 const lessonSchema = new mongoose.Schema(
   {
     title: { type: String, required: true, trim: true, maxlength: 120 },
-    contentType: { type: String, enum: ["text", "video"], default: "text" },
+    contentType: { type: String, enum: ["text", "video", "pdf"], default: "text" },
     contentData: { type: String, default: "", maxlength: 700 }
   },
   { _id: true }

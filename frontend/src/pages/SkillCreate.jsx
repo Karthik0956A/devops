@@ -205,6 +205,7 @@ const SkillCreate = () => {
                   >
                     <option value="text">Text</option>
                     <option value="video">Video</option>
+                    <option value="pdf">PDF</option>
                   </select>
                 </label>
                 <button
@@ -221,7 +222,7 @@ const SkillCreate = () => {
                     className="focus-ring mt-1 w-full rounded border border-slate-300 px-3 py-2"
                     value={lesson.contentData}
                     onChange={(event) => updateLesson(index, "contentData", event.target.value)}
-                    placeholder="Short lesson summary or video URL"
+                    placeholder="Short summary, YouTube URL, or Drive PDF link"
                   />
                 </label>
               </div>
