@@ -1,4 +1,4 @@
-import { ArrowLeft, CalendarPlus, CheckCircle2, ExternalLink, FileText, PlayCircle, Star } from "lucide-react";
+import { ArrowLeft, CalendarPlus, CheckCircle2, ExternalLink, FileText, Star } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import api from "../api/client.js";
