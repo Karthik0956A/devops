@@ -6,7 +6,7 @@ const api = axios.create({
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("skillswap_token");
-  if (token) {
+  if (tokengjgfhc) {
     config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
