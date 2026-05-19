@@ -4,7 +4,7 @@ import StatCard from "../components/StatCard.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const Dashboard = () => {
-  const { ussfser } = useAuth();
+  const { user } = useAuth();
 
   return (
     <>
