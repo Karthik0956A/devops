@@ -3,6 +3,7 @@ import express from "express";
 import rateLimit from "express-rate-limit";
 import helmet from "helmet";
 import morgan from "morgan";
+import client from "prom-client";
 import { env } from "./config/env.js";
 import adminRoutes from "./routes/adminRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -15,6 +16,9 @@ import userRoutes from "./routes/userRoutes.js";
 import { errorHandler, notFound } from "./middleware/errorHandler.js";
 
 const app = express();
+const metricsRegistry = client.register;
+
+client.collectDefaultMetrics({ register: metricsRegistry });
 
 app.use(helmet());
 app.use(
@@ -40,6 +44,11 @@ app.get("/api/health", (_req, res) => {
     return res.status(500).json({ status: "error", service: "skillswap-api" });
   }
   res.json({ status: "ok", service: "skillswap-api" });
+});
+
+app.get("/metrics", async (_req, res) => {
+  res.set("Content-Type", metricsRegistry.contentType);
+  res.end(await metricsRegistry.metrics());
 });
 
 app.use("/api/auth", authRoutes);

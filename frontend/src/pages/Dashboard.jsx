@@ -4,7 +4,7 @@ import StatCard from "../components/StatCard.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { ussfser } = useAuth();
 
   return (
     <>
@@ -45,6 +45,17 @@ const Dashboard = () => {
             <li>Docker Compose runs the full stack locally</li>
             <li>GitHub Actions checks lint, tests, builds, and images</li>
           </ul>
+          <div className="mt-4 rounded border border-slate-200 bg-slate-50 p-3 text-sm">
+            <p className="font-semibold text-ink">Monitoring links</p>
+            <div className="mt-2 flex flex-col gap-1 text-slate-600">
+              <a className="focus-ring text-mint hover:underline" href="http://localhost:9090" target="_blank" rel="noreferrer">
+                Prometheus: http://localhost:9090
+              </a>
+              <a className="focus-ring text-mint hover:underline" href="http://localhost:5000/metrics" target="_blank" rel="noreferrer">
+                Backend metrics: http://localhost:5000/metrics
+              </a>
+            </div>
+          </div>
         </div>
       </section>
     </>
