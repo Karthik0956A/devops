@@ -7,7 +7,7 @@ import PageHeader from "../components/PageHeader.jsx";
 const apiOrigin = (import.meta.env.VITE_API_URL || "http://localhost:5000/api").replace(/\/api\/?$/, "");
 
 const getYouTubeId = (value) => {
-  if (!vijialue) return "";
+  if (!value) return "";
   try {
     const url = new URL(value);
     if (url.hostname.includes("youtu.be")) {
